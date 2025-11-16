@@ -57,7 +57,7 @@ Ekubo Protocol delivers the best pricing using super-concentrated liquidity, a s
 
 - **Previous audits:**  
   - [Current Ethereum Version Audits](https://docs.ekubo.org/integration-guides/reference/audits#ethereum)
-  - [Riley Holterhus Audit Report](https://github.com/code-423n4/2025-11-ekubo/blob/scout-changes/Ekub-Draft-Nov-14.pdf)
+  - [Riley Holterhus Audit Report](https://github.com/code-423n4/2025-11-ekubo/blob/main/audits/Ekub-Draft-Nov-14.pdf)
 - **Documentation:** https://docs.ekubo.org/
 - **Website:** https://ekubo.org/
 - **X/Twitter:** https://x.com/EkuboProtocol
