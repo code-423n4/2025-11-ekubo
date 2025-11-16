@@ -1,0 +1,24 @@
+.vscode
+.codegpt
+
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+!/broadcast/*/1/run-latest.json
+!/broadcast/*/11155111/run-latest.json
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Dotenv file
+.env
+
+.codegpt
+
+# Gas snapshot file (snapshots/ directory is tracked instead)
+.gas-snapshot

@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: ekubo-license-v1.eth
+pragma solidity >=0.8.30;
+
+import {ILocker, IForwardee} from "../IFlashAccountant.sol";
+import {IExtension} from "../ICore.sol";
+import {IExposedStorage} from "../IExposedStorage.sol";
+import {PoolKey} from "../../types/poolKey.sol";
+import {OrderKey} from "../../types/orderKey.sol";
+import {OrderConfig} from "../../types/orderConfig.sol";
+import {PoolId} from "../../types/poolId.sol";
+
+/// @title TWAMM Interface
+/// @notice Interface for the Ekubo TWAMM Extension
+/// @dev Extension for Ekubo Protocol that enables creation of DCA orders that are executed over time
+interface ITWAMM is IExposedStorage, IExtension, ILocker, IForwardee {
+    /// @notice Emitted when an order is updated
+    /// @param owner Address of the order owner
+    /// @param salt Unique salt for the order
+    /// @param orderKey Order key identifying the order
+    /// @param saleRateDelta Change in sale rate applied
+    event OrderUpdated(address owner, bytes32 salt, OrderKey orderKey, int112 saleRateDelta);
+
+    /// @notice Emitted when proceeds are withdrawn from an order
+    /// @param owner Address of the order owner
+    /// @param salt Unique salt for the order
+    /// @param orderKey Order key identifying the order
+    /// @param amount Amount of tokens withdrawn
+    event OrderProceedsWithdrawn(address owner, bytes32 salt, OrderKey orderKey, uint128 amount);
+
+    /// @notice Thrown when the number of orders at a time would overflow
+    error TimeNumOrdersOverflow();
+
+    /// @notice Thrown when tick spacing is not the maximum allowed value
+    error FullRangePoolOnly();
+
+    /// @notice Thrown when trying to modify an order that has already ended
+    error OrderAlreadyEnded();
+
+    /// @notice Thrown when order timestamps are invalid
+    error InvalidTimestamps();
+
+    /// @notice Thrown when sale rate delta exceeds maximum allowed value
+    error MaxSaleRateDeltaPerTime();
+
+    /// @notice Thrown when trying to operate on an uninitialized pool
+    error PoolNotInitialized();
+
+    /// @notice Gets the reward rate inside a time range for a specific token
+    /// @dev Used to calculate how much of the buy token an order has earned
+    /// @param poolId Unique identifier for the pool
+    /// @param config The order config that is being checked
+    /// @return result The reward rate inside the specified range
+    function getRewardRateInside(PoolId poolId, OrderConfig config) external view returns (uint256 result);
+
+    /// @notice Locks core and executes virtual orders for the given pool key
+    /// @dev The pool key must use this extension, which is checked in the locked callback
+    /// @param poolKey Pool key identifying the pool
+    function lockAndExecuteVirtualOrders(PoolKey memory poolKey) external;
+}
