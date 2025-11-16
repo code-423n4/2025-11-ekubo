@@ -45,7 +45,9 @@ Any issues related to non-standard tokens should only affect the pools that use 
 
 ### Extension Freezing Power
 
-Extensions can freeze a pool and lock deposited user capital. This is considered an acceptable risk.
+The extensions in scope of the audit are **not** expected to be able to freeze a pool and lock deposited user capital.
+
+Third-party extensions, however, can freeze a pool and lock deposited user capital. This is considered an acceptable risk.
 
 # Overview
 
@@ -62,194 +64,117 @@ Ekubo Protocol delivers the best pricing using super-concentrated liquidity, a s
 
 # Scope
 
-*See [scope.txt](https://github.com/code-423n4/2025-11-ekubo/blob/main/scope.txt)*
-
 ### Files in scope
 
 
-| File   | Logic Contracts | Interfaces | nSLOC | Purpose | Libraries used |
-| ------ | --------------- | ---------- | ----- | -----   | ------------ |
-| /src/Core.sol | 1| **** | 598 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/SafeCastLib.sol<br>solady/utils/LibBit.sol|
-| /src/Incentives.sol | 1| **** | 79 | |solady/utils/SafeTransferLib.sol<br>solady/utils/Multicallable.sol<br>solady/utils/MerkleProofLib.sol|
-| /src/MEVCaptureRouter.sol | 1| **** | 30 | |solady/utils/SafeTransferLib.sol|
-| /src/Orders.sol | 1| **** | 104 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/SafeCastLib.sol<br>solady/utils/SafeTransferLib.sol|
-| /src/Positions.sol | 1| **** | 28 | ||
-| /src/PositionsOwner.sol | 1| **** | 37 | |solady/auth/Ownable.sol<br>solady/utils/Multicallable.sol|
-| /src/RevenueBuybacks.sol | 1| **** | 100 | |solady/auth/Ownable.sol<br>solady/utils/Multicallable.sol<br>solady/utils/SafeTransferLib.sol|
-| /src/Router.sol | 1| **** | 256 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/SafeTransferLib.sol|
-| /src/TokenWrapper.sol | 1| **** | 109 | |forge-std/interfaces/IERC20.sol<br>solady/utils/SafeCastLib.sol|
-| /src/TokenWrapperFactory.sol | 1| **** | 17 | |forge-std/interfaces/IERC20.sol<br>solady/utils/EfficientHashLib.sol|
-| /src/base/BaseExtension.sol | 1| **** | 44 | ||
-| /src/base/BaseForwardee.sol | 1| **** | 17 | ||
-| /src/base/BaseLocker.sol | 1| **** | 50 | ||
-| /src/base/BaseNonfungibleToken.sol | 1| **** | 69 | |solady/tokens/ERC721.sol<br>solady/utils/LibString.sol<br>solady/auth/Ownable.sol|
-| /src/base/BasePositions.sol | 1| **** | 184 | |solady/utils/SafeCastLib.sol<br>solady/utils/SafeTransferLib.sol|
-| /src/base/ExposedStorage.sol | 1| **** | 16 | ||
-| /src/base/FlashAccountant.sol | 1| **** | 232 | ||
-| /src/base/PayableMulticallable.sol | 1| **** | 13 | |solady/utils/Multicallable.sol<br>solady/utils/SafeTransferLib.sol|
-| /src/base/UsesCore.sol | 1| **** | 13 | ||
-| /src/extensions/MEVCapture.sol | 1| **** | 189 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/SafeCastLib.sol|
-| /src/extensions/Oracle.sol | 1| **** | 271 | |solady/utils/FixedPointMathLib.sol|
-| /src/extensions/TWAMM.sol | 1| **** | 464 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/LibBit.sol|
-| /src/interfaces/IBaseNonfungibleToken.sol | ****| 1 | 3 | ||
-| /src/interfaces/ICore.sol | ****| 2 | 39 | ||
-| /src/interfaces/IExposedStorage.sol | ****| 1 | 3 | ||
-| /src/interfaces/IFlashAccountant.sol | ****| 3 | 11 | ||
-| /src/interfaces/IIncentives.sol | ****| 1 | 12 | ||
-| /src/interfaces/IOrders.sol | ****| 1 | 7 | ||
-| /src/interfaces/IPositions.sol | ****| 1 | 9 | ||
-| /src/interfaces/IRevenueBuybacks.sol | ****| 1 | 10 | ||
-| /src/interfaces/extensions/IMEVCapture.sol | ****| 1 | 10 | ||
-| /src/interfaces/extensions/IOracle.sol | ****| 1 | 16 | ||
-| /src/interfaces/extensions/ITWAMM.sol | ****| 1 | 18 | ||
-| /src/lens/CoreDataFetcher.sol | 1| **** | 33 | ||
-| /src/lens/ERC7726.sol | 1| 1 | 73 | |solady/utils/FixedPointMathLib.sol|
-| /src/lens/IncentivesDataFetcher.sol | 1| **** | 89 | ||
-| /src/lens/PriceFetcher.sol | 1| **** | 159 | |solady/utils/FixedPointMathLib.sol|
-| /src/lens/QuoteDataFetcher.sol | 1| **** | 116 | |solady/utils/DynamicArrayLib.sol|
-| /src/lens/TWAMMDataFetcher.sol | 1| **** | 98 | ||
-| /src/lens/TokenDataFetcher.sol | 1| **** | 64 | |solady/utils/SafeTransferLib.sol<br>solady/utils/DynamicArrayLib.sol<br>forge-std/interfaces/IERC20.sol|
-| /src/libraries/CoreLib.sol | 1| **** | 62 | ||
-| /src/libraries/CoreStorageLayout.sol | 1| **** | 65 | ||
-| /src/libraries/ExposedStorageLib.sol | 1| **** | 57 | ||
-| /src/libraries/ExtensionCallPointsLib.sol | 1| **** | 188 | ||
-| /src/libraries/FlashAccountantLib.sol | 1| **** | 152 | ||
-| /src/libraries/IncentivesLib.sol | 1| **** | 47 | ||
-| /src/libraries/OracleLib.sol | 1| **** | 34 | ||
-| /src/libraries/RevenueBuybacksLib.sol | 1| **** | 16 | ||
-| /src/libraries/TWAMMLib.sol | 1| **** | 87 | |solady/utils/FixedPointMathLib.sol|
-| /src/libraries/TWAMMStorageLayout.sol | 1| **** | 44 | ||
-| /src/libraries/TimeDescriptor.sol | ****| **** | 35 | |solady/utils/DateTimeLib.sol<br>solady/utils/LibString.sol|
-| /src/math/constants.sol | ****| **** | 6 | ||
-| /src/math/delta.sol | ****| **** | 85 | |solady/utils/FixedPointMathLib.sol|
-| /src/math/exp2.sol | ****| **** | 200 | ||
-| /src/math/fee.sol | ****| **** | 18 | ||
-| /src/math/isPriceIncreasing.sol | ****| **** | 6 | ||
-| /src/math/liquidity.sol | ****| **** | 76 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/LibBit.sol<br>solady/utils/SafeCastLib.sol|
-| /src/math/sqrtRatio.sol | ****| **** | 69 | |solady/utils/FixedPointMathLib.sol|
-| /src/math/tickBitmap.sol | ****| **** | 73 | ||
-| /src/math/ticks.sol | ****| **** | 97 | |solady/utils/FixedPointMathLib.sol<br>solady/utils/LibBit.sol|
-| /src/math/time.sol | ****| **** | 41 | |solady/utils/FixedPointMathLib.sol|
-| /src/math/timeBitmap.sol | ****| **** | 50 | ||
-| /src/math/twamm.sol | ****| **** | 83 | |solady/utils/FixedPointMathLib.sol|
-| /src/types/bitmap.sol | ****| **** | 27 | ||
-| /src/types/buybacksState.sol | ****| **** | 69 | ||
-| /src/types/callPoints.sol | ****| **** | 60 | ||
-| /src/types/claimKey.sol | ****| **** | 12 | ||
-| /src/types/counts.sol | ****| **** | 31 | ||
-| /src/types/dropKey.sol | ****| **** | 12 | ||
-| /src/types/dropState.sol | ****| **** | 28 | ||
-| /src/types/feesPerLiquidity.sol | ****| **** | 18 | ||
-| /src/types/locker.sol | ****| **** | 19 | ||
-| /src/types/mevCapturePoolState.sol | ****| **** | 18 | ||
-| /src/types/observation.sol | ****| **** | 18 | ||
-| /src/types/orderConfig.sol | ****| **** | 31 | ||
-| /src/types/orderId.sol | ****| **** | 2 | ||
-| /src/types/orderKey.sol | ****| **** | 34 | ||
-| /src/types/orderState.sol | ****| **** | 33 | ||
-| /src/types/poolBalanceUpdate.sol | ****| **** | 18 | ||
-| /src/types/poolConfig.sol | ****| **** | 114 | ||
-| /src/types/poolId.sol | ****| **** | 2 | ||
-| /src/types/poolKey.sol | ****| **** | 19 | ||
-| /src/types/poolState.sol | ****| **** | 36 | ||
-| /src/types/position.sol | ****| **** | 24 | |solady/utils/FixedPointMathLib.sol|
-| /src/types/positionId.sol | ****| **** | 40 | ||
-| /src/types/snapshot.sol | ****| **** | 29 | ||
-| /src/types/sqrtRatio.sol | ****| **** | 104 | ||
-| /src/types/storageSlot.sol | ****| **** | 36 | ||
-| /src/types/swapParameters.sol | ****| **** | 64 | ||
-| /src/types/tickInfo.sol | ****| **** | 24 | ||
-| /src/types/timeInfo.sol | ****| **** | 36 | ||
-| /src/types/twammPoolState.sol | ****| **** | 44 | ||
-| **Totals** | **39** | **15** | **6283** | | |
+| File   | nSLOC |
+| ------ | ----- |
+|[src/Core.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/Core.sol)| 598 |
+|[src/Incentives.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/Incentives.sol)| 79 |
+|[src/MEVCaptureRouter.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/MEVCaptureRouter.sol)| 30 |
+|[src/Orders.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/Orders.sol)| 104 |
+|[src/Positions.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/Positions.sol)| 28 |
+|[src/PositionsOwner.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/PositionsOwner.sol)| 37 |
+|[src/RevenueBuybacks.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/RevenueBuybacks.sol)| 100 |
+|[src/Router.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/Router.sol)| 256 |
+|[src/TokenWrapper.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/TokenWrapper.sol)| 109 |
+|[src/TokenWrapperFactory.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/TokenWrapperFactory.sol)| 17 |
+|[src/base/BaseExtension.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/BaseExtension.sol)| 44 |
+|[src/base/BaseForwardee.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/BaseForwardee.sol)| 17 |
+|[src/base/BaseLocker.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/BaseLocker.sol)| 50 |
+|[src/base/BaseNonfungibleToken.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/BaseNonfungibleToken.sol)| 69 |
+|[src/base/BasePositions.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/BasePositions.sol)| 184 |
+|[src/base/ExposedStorage.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/ExposedStorage.sol)| 16 |
+|[src/base/FlashAccountant.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/FlashAccountant.sol)| 232 |
+|[src/base/PayableMulticallable.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/PayableMulticallable.sol)| 13 |
+|[src/base/UsesCore.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/base/UsesCore.sol)| 13 |
+|[src/extensions/MEVCapture.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/extensions/MEVCapture.sol)| 189 |
+|[src/extensions/Oracle.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/extensions/Oracle.sol)| 271 |
+|[src/extensions/TWAMM.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/extensions/TWAMM.sol)| 464 |
+|[src/interfaces/IBaseNonfungibleToken.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IBaseNonfungibleToken.sol)| 3 |
+|[src/interfaces/ICore.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/ICore.sol)| 39 |
+|[src/interfaces/IExposedStorage.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IExposedStorage.sol)| 3 |
+|[src/interfaces/IFlashAccountant.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IFlashAccountant.sol)| 11 |
+|[src/interfaces/IIncentives.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IIncentives.sol)| 12 |
+|[src/interfaces/IOrders.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IOrders.sol)| 7 |
+|[src/interfaces/IPositions.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IPositions.sol)| 9 |
+|[src/interfaces/IRevenueBuybacks.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/IRevenueBuybacks.sol)| 10 |
+|[src/interfaces/extensions/IMEVCapture.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/extensions/IMEVCapture.sol)| 10 |
+|[src/interfaces/extensions/IOracle.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/extensions/IOracle.sol)| 16 |
+|[src/interfaces/extensions/ITWAMM.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/interfaces/extensions/ITWAMM.sol)| 18 |
+|[src/lens/CoreDataFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/CoreDataFetcher.sol)| 33 |
+|[src/lens/ERC7726.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/ERC7726.sol)| 73 |
+|[src/lens/IncentivesDataFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/IncentivesDataFetcher.sol)| 89 |
+|[src/lens/PriceFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/PriceFetcher.sol)| 159 |
+|[src/lens/QuoteDataFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/QuoteDataFetcher.sol)| 116 |
+|[src/lens/TWAMMDataFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/TWAMMDataFetcher.sol)| 98 |
+|[src/lens/TokenDataFetcher.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/lens/TokenDataFetcher.sol)| 64 |
+|[src/libraries/CoreLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/CoreLib.sol)| 62 |
+|[src/libraries/CoreStorageLayout.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/CoreStorageLayout.sol)| 65 |
+|[src/libraries/ExposedStorageLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/ExposedStorageLib.sol)| 57 |
+|[src/libraries/ExtensionCallPointsLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/ExtensionCallPointsLib.sol)| 188 |
+|[src/libraries/FlashAccountantLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/FlashAccountantLib.sol)| 152 |
+|[src/libraries/IncentivesLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/IncentivesLib.sol)| 47 |
+|[src/libraries/OracleLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/OracleLib.sol)| 34 |
+|[src/libraries/RevenueBuybacksLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/RevenueBuybacksLib.sol)| 16 |
+|[src/libraries/TWAMMLib.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/TWAMMLib.sol)| 87 |
+|[src/libraries/TWAMMStorageLayout.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/TWAMMStorageLayout.sol)| 44 |
+|[src/libraries/TimeDescriptor.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/libraries/TimeDescriptor.sol)| 35 |
+|[src/math/constants.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/constants.sol)| 6 |
+|[src/math/delta.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/delta.sol)| 85 |
+|[src/math/exp2.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/exp2.sol)| 200 |
+|[src/math/fee.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/fee.sol)| 18 |
+|[src/math/isPriceIncreasing.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/isPriceIncreasing.sol)| 6 |
+|[src/math/liquidity.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/liquidity.sol)| 76 |
+|[src/math/sqrtRatio.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/sqrtRatio.sol)| 69 |
+|[src/math/tickBitmap.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/tickBitmap.sol)| 73 |
+|[src/math/ticks.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/ticks.sol)| 97 |
+|[src/math/time.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/time.sol)| 41 |
+|[src/math/timeBitmap.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/timeBitmap.sol)| 50 |
+|[src/math/twamm.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/math/twamm.sol)| 83 |
+|[src/types/bitmap.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/bitmap.sol)| 27 |
+|[src/types/buybacksState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/buybacksState.sol)| 69 |
+|[src/types/callPoints.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/callPoints.sol)| 60 |
+|[src/types/claimKey.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/claimKey.sol)| 12 |
+|[src/types/counts.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/counts.sol)| 31 |
+|[src/types/dropKey.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/dropKey.sol)| 12 |
+|[src/types/dropState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/dropState.sol)| 28 |
+|[src/types/feesPerLiquidity.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/feesPerLiquidity.sol)| 18 |
+|[src/types/locker.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/locker.sol)| 19 |
+|[src/types/mevCapturePoolState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/mevCapturePoolState.sol)| 18 |
+|[src/types/observation.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/observation.sol)| 18 |
+|[src/types/orderConfig.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/orderConfig.sol)| 31 |
+|[src/types/orderId.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/orderId.sol)| 2 |
+|[src/types/orderKey.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/orderKey.sol)| 34 |
+|[src/types/orderState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/orderState.sol)| 33 |
+|[src/types/poolBalanceUpdate.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/poolBalanceUpdate.sol)| 18 |
+|[src/types/poolConfig.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/poolConfig.sol)| 114 |
+|[src/types/poolId.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/poolId.sol)| 2 |
+|[src/types/poolKey.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/poolKey.sol)| 19 |
+|[src/types/poolState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/poolState.sol)| 36 |
+|[src/types/position.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/position.sol)| 24 |
+|[src/types/positionId.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/positionId.sol)| 40 |
+|[src/types/snapshot.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/snapshot.sol)| 29 |
+|[src/types/sqrtRatio.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/sqrtRatio.sol)| 104 |
+|[src/types/storageSlot.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/storageSlot.sol)| 36 |
+|[src/types/swapParameters.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/swapParameters.sol)| 64 |
+|[src/types/tickInfo.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/tickInfo.sol)| 24 |
+|[src/types/timeInfo.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/timeInfo.sol)| 36 |
+|[src/types/twammPoolState.sol](https://github.com/code-423n4/2025-11-ekubo/blob/main/src/types/twammPoolState.sol)| 44 |
+|**Totals** | **6283** |
+
+
+*For a machine-readable version, see [scope.txt](https://github.com/code-423n4/2025-11-ekubo/blob/main/scope.txt)*
 
 ### Files out of scope
 
-*See [out_of_scope.txt](https://github.com/code-423n4/2025-11-ekubo/blob/main/out_of_scope.txt)*
-
 | File         |
 | ------------ |
-| ./script/DeployAndTestGas.s.sol |
-| ./script/DeployCore.s.sol |
-| ./script/DeployERC7726.sol |
-| ./script/DeployIncentives.s.sol |
-| ./script/DeployMEVCapture.sol |
-| ./script/DeployRevenueBuybacks.s.sol |
-| ./script/DeployStateful.s.sol |
-| ./script/DeployStateless.s.sol |
-| ./script/DeployTWAMMStateful.s.sol |
-| ./script/DeployTWAMMStateless.sol |
-| ./script/DeployTokenWrapper.s.sol |
-| ./script/PrintCoreInitCodeHash.s.sol |
-| ./test/Core.t.sol |
-| ./test/FullTest.sol |
-| ./test/Incentives.t.sol |
-| ./test/MEVCaptureRouter.t.sol |
-| ./test/MaxLiquidityPerTick.t.sol |
-| ./test/Orders.t.sol |
-| ./test/PositionExtraData.t.sol |
-| ./test/Positions.t.sol |
-| ./test/PositionsOwner.t.sol |
-| ./test/RevenueBuybacks.t.sol |
-| ./test/Router.t.sol |
-| ./test/SolvencyInvariantTest.t.sol |
-| ./test/SwapTest.t.sol |
-| ./test/TWAMMInvariantTest.t.sol |
-| ./test/TestToken.sol |
-| ./test/TokenWrapper.t.sol |
-| ./test/WithdrawMultiple.t.sol |
-| ./test/base/ExposedStorage.t.sol |
-| ./test/base/FlashAccountant.t.sol |
-| ./test/base/FlashAccountantReturnData.t.sol |
-| ./test/base/UsesCore.t.sol |
-| ./test/extensions/MEVCapture.t.sol |
-| ./test/extensions/Oracle.t.sol |
-| ./test/extensions/TWAMM.t.sol |
-| ./test/lens/ERC7726.t.sol |
-| ./test/lens/OracleLib.t.sol |
-| ./test/lens/PriceFetcher.t.sol |
-| ./test/lens/QuoteDataFetcher.t.sol |
-| ./test/lens/TWAMMDataFetcher.t.sol |
-| ./test/lens/TokenDataFetcher.t.sol |
-| ./test/libraries/CoreStorageLayout.t.sol |
-| ./test/libraries/ExtensionCallPointsLib.t.sol |
-| ./test/libraries/TWAMMStorageLayout.t.sol |
-| ./test/libraries/TimeDescriptor.t.sol |
-| ./test/math/delta.t.sol |
-| ./test/math/exp2.t.sol |
-| ./test/math/fee.t.sol |
-| ./test/math/isPriceIncreasing.t.sol |
-| ./test/math/liquidity.t.sol |
-| ./test/math/sqrtRatio.t.sol |
-| ./test/math/tickBitmap.t.sol |
-| ./test/math/ticks.t.sol |
-| ./test/math/time.t.sol |
-| ./test/math/timeBitmap.t.sol |
-| ./test/math/twamm.t.sol |
-| ./test/types/bitmap.t.sol |
-| ./test/types/buybacksState.t.sol |
-| ./test/types/callPoints.t.sol |
-| ./test/types/counts.t.sol |
-| ./test/types/feesPerLiquidity.t.sol |
-| ./test/types/locker.t.sol |
-| ./test/types/mevCapturePoolState.t.sol |
-| ./test/types/observation.t.sol |
-| ./test/types/orderConfig.t.sol |
-| ./test/types/orderKey.t.sol |
-| ./test/types/orderState.t.sol |
-| ./test/types/poolBalanceUpdate.t.sol |
-| ./test/types/poolConfig.t.sol |
-| ./test/types/poolKey.t.sol |
-| ./test/types/poolState.t.sol |
-| ./test/types/position.t.sol |
-| ./test/types/positionId.t.sol |
-| ./test/types/snapshot.t.sol |
-| ./test/types/sqrtRatio.t.sol |
-| ./test/types/swapParameters.t.sol |
-| ./test/types/tickInfo.t.sol |
-| ./test/types/timeInfo.t.sol |
-| ./test/types/twammPoolState.t.sol |
+| [script/\*\*.\*\*](https://github.com/code-423n4/2025-11-ekubo/tree/main/script) |
+| [test/\*\*.\*\*](https://github.com/code-423n4/2025-11-ekubo/tree/main/test) |
 | Totals: 80 |
+
+*For a machine-readable version, see [out_of_scope.txt](https://github.com/code-423n4/2025-11-ekubo/blob/main/out_of_scope.txt)*
 
 # Additional context
 
@@ -261,9 +186,9 @@ We use a custom storage layout and also regularly use stack values without clean
 
 ## Main invariants
 
-The sum of all swap deltas, position update deltas, pand osition fee collection should never at any time result in a pool with a balance less than zero of either token0 or token1.
+The sum of all swap deltas, position update deltas, and position fee collection should never at any time result in a pool with a balance less than zero of either token0 or token1.
 
-All positions should be able to be withdrawn at any time (except for positions using third party extensions; the extensions in the repository should never block withdrawal within the block gas limit).
+All positions should be able to be withdrawn at any time (except for positions using third-party extensions; the extensions in the repository should never block withdrawal within the block gas limit).
 
 The codebase contains extensive unit and fuzzing test suites; many of these include invariants that should be upheld by the system.
 
@@ -274,6 +199,7 @@ The codebase contains extensive unit and fuzzing test suites; many of these incl
 | --------------------------------------- | ---------------------------- |
 | `Positions` Owner                          | Can change metadata and claim protocol fees               |
 | `RevenueBuybacks` Owner                             | Can configure buyback rules and withdraw leftover tokens                       |
+| `BaseNonfungibleToken` Owner | Can set metadata of the NFT |
 
 ## Running tests
 
