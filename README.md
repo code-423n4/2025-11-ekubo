@@ -49,6 +49,18 @@ The extensions in scope of the audit are **not** expected to be able to freeze a
 
 Third-party extensions, however, can freeze a pool and lock deposited user capital. This is considered an acceptable risk.
 
+### TWAMM Guarantees
+
+TWAMM order execution quality is dependent on the liquidity in the pool and orders on the other side of the pool. 
+
+If any of the following conditions are true:
+
+- Liquidity in the pool is low
+- The other side has not placed orders
+- Blocks are not produced for a period of time
+
+The user may receive a bad price from the TWAMM. This is a known risk; the TWAMM order execution price is not guaranteed.
+
 # Overview
 
 Ekubo Protocol delivers the best pricing using super-concentrated liquidity, a singleton architecture, and extensions. The Ekubo protocol vision is to provide a balance between the best swap execution and liquidity provider returns. The contracts are relentlessly optimized to be able to provide the most capital efficient liquidity ever at the lowest cost.
