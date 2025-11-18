@@ -1,15 +1,3 @@
-./script/DeployAndTestGas.s.sol
-./script/DeployCore.s.sol
-./script/DeployERC7726.sol
-./script/DeployIncentives.s.sol
-./script/DeployMEVCapture.sol
-./script/DeployRevenueBuybacks.s.sol
-./script/DeployStateful.s.sol
-./script/DeployStateless.s.sol
-./script/DeployTWAMMStateful.s.sol
-./script/DeployTWAMMStateless.sol
-./script/DeployTokenWrapper.s.sol
-./script/PrintCoreInitCodeHash.s.sol
 ./test/Core.t.sol
 ./test/FullTest.sol
 ./test/Incentives.t.sol
