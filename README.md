@@ -182,9 +182,8 @@ Ekubo Protocol delivers the best pricing using super-concentrated liquidity, a s
 
 | File         |
 | ------------ |
-| [script/\*\*.\*\*](https://github.com/code-423n4/2025-11-ekubo/tree/main/script) |
 | [test/\*\*.\*\*](https://github.com/code-423n4/2025-11-ekubo/tree/main/test) |
-| Totals: 80 |
+| Totals: 68 |
 
 *For a machine-readable version, see [out_of_scope.txt](https://github.com/code-423n4/2025-11-ekubo/blob/main/out_of_scope.txt)*
 
