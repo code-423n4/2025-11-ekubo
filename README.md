@@ -25,7 +25,7 @@
 
 [V12](https://v12.zellic.io/) is [Zellic](https://zellic.io)'s in-house AI auditing tool. It is the only autonomous Solidity auditor that [reliably finds Highs and Criticals](https://www.zellic.io/blog/introducing-v12/). All issues found by V12 will be judged as out of scope and ineligible for awards.
 
-V12 findings will be posted in this section within the first two days of the competition.  
+[V12 findings can be viewed here.](https://github.com/code-423n4/2025-11-ekubo/blob/main/2025-11-ekubo_V12.md)
 
 ## Publicly known issues
 
